@@ -126,26 +126,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Get npm cache directory
-        id: npm-cache
-        shell: bash
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-
-      - name: Reset npm cache
-        shell: bash
-        run: |
-          # https://github.com/actions/virtual-environments/issues/427
-          rm -rf ${{ steps.npm-cache.outputs.dir }}
-
-      - name: Cache npm modules
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: js1-${{ runner.os }}-npm-${{ hashFiles('bokehjs/package-lock.json') }}
-          restore-keys: |
-            js1-${{ runner.os }}-npm-
-
       - name: Upgrade npm
         shell: bash
         run: |
